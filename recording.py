@@ -1,7 +1,7 @@
 import cv2 as cv
 import numpy as np
 
-WAIT_FOR_KEY = 34
+WAIT_FOR_KEY = 60
 
 # Starts on calling the function ends when e pressed
 def recordVideo():
@@ -59,3 +59,10 @@ def playbackTestStuff():
     cv.imshow("Snap",np.load('testSnap.npy'))
     playbackVideo(loadVideo('testVideo.npy'))
     cv.destroyAllWindows()
+
+
+def displayImg(img):
+    cv.imshow("Img",img)
+    key = cv.waitKey(100000)
+    if(key>0):
+        cv.destroyAllWindows()
