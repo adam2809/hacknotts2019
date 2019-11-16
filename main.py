@@ -26,10 +26,45 @@ def prepImg(img):
     img = cv.GaussianBlur(img, (9, 9), 0)
     return img
 
-vid = r.loadVideo('maskedVideo.npy')
-reapeating = []
-[reapeating.extend(vid) for i in range(100)]
-r.playbackVideo(reapeating)
+
+def repeatVideoNTimes(video,n):
+    reapeating = []
+    for i in range(n):
+        reapeating.append(video)
+    return np.concatenate(reapeating)
+
+
+def changeAllWhitePixelsToColor(frame,color):
+    res = np.zeros((*frame.shape,3))
+    for i in range(frame.shape[0]):
+        for j in range(frame.shape[1]):
+            if frame[i][j] == 255:
+                res[i][j] = color
+    return res
+
+
+# DEMO Colored Strobe
+# r.playbackVideo(repeatVideoNTimes(r.loadVideo('coloredStrobeworks.npy'),10))
+
+##Colored strobe working
+# vid = r.loadVideo('maskedVideo.npy')[18:]
+#
+# newShape = (*vid.shape,3)
+# res = repeatVideoNTimes(np.zeros(newShape),3)
+# colors = [
+# np.array([255,0,0]),
+# np.array([0,255,0]),
+# np.array([0,0,255])
+# ]
+# len = res.shape[0]
+# for i in range(len):
+#     print(f"Frame {i} of {len}")
+#     res[i] = changeAllWhitePixelsToColor(vid[int(i/3)],colors[i%3])
+#
+#
+# np.save('coloredStrobeworks.npy',res)
+# r.playbackVideo(res)
+
 
 
 
