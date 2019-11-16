@@ -37,6 +37,20 @@ def playbackVideo(frames):
     cv.destroyAllWindows()
 
 
+def playbackVideoUntilExited(frames):
+    exit = False
+    while True:
+        if exit:
+            break
+        for f in frames:
+            cv.imshow("Frame",f)
+            key = cv.waitKey(WAIT_FOR_KEY)
+            if(key == 101):
+                exit = True
+                break
+    cv.destroyAllWindows()
+
+
 def saveVideo(file):
     video = recordVideo()
     np.save(file,video)

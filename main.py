@@ -1,6 +1,7 @@
 import recording as r
 import numpy as np
 import cv2 as cv
+from vfx import VFX
 
 # def getBlackPixel():
 #     return np.array([0,0,0])
@@ -43,10 +44,29 @@ def changeAllWhitePixelsToColor(frame,color):
     return res
 
 
-# DEMO Colored Strobe
-# r.playbackVideo(repeatVideoNTimes(r.loadVideo('coloredStrobeworks.npy'),10))
 
-##Colored strobe working
+# snap = r.takeSnap()
+# np.save('testVids/vfxClassTestSnap.npy',snap)
+
+vid,snap=np.load('testVids/vfxClassTestVid.npy'),np.load('testVids/vfxClassTestSnap.npy')
+vfx=VFX(vid,snap)
+vfx.maskVideo()
+colors = [
+    np.array([255,0,0]),
+    np.array([0,255,0]),
+    np.array([0,0,255]),
+    np.array([255,255,0])
+]
+vfx.applyColoredStrobeFX(colors)
+np.save('fewFramesWithColoredStrobe.npy',vfx.videoWithFX)
+r.playbackVideoUntilExited(vfx.videoWithFX)
+
+
+
+# # DEMO Colored Strobe
+# r.playbackVideo(repeatVideoNTimes(r.loadVideo('coloredStrobeworks.npy'),10))
+#
+# #Colored strobe working
 # vid = r.loadVideo('maskedVideo.npy')[18:]
 #
 # newShape = (*vid.shape,3)
@@ -64,11 +84,9 @@ def changeAllWhitePixelsToColor(frame,color):
 #
 # np.save('coloredStrobeworks.npy',res)
 # r.playbackVideo(res)
-
-
-
-
-## Masking short video test
+#
+#
+# # Masking short video test
 # video,snap = r.loadTestStuff()
 # snap = prepImg(snap)
 #
@@ -83,11 +101,11 @@ def changeAllWhitePixelsToColor(frame,color):
 #
 #
 # np.save('maskedVideo.npy',maskedVideo)
-
-
-
-
-## Single picture test
+#
+#
+#
+#
+# # Single picture test
 # bg = prepImg(np.load('testBackground.npy'))
 # frame = prepImg(np.load('testToMask.npy'))
 #
@@ -95,8 +113,8 @@ def changeAllWhitePixelsToColor(frame,color):
 # _, contours = cv.findContours(masked, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
 # print(contours)
 # cv.drawContours(frame, contours, 0 (0, 255, 0), 3)
-
-
+#
+#
 # cv.imshow("Snap",bg)
 # cv.imshow("Frame",frame)
 # cv.imshow("Masked",masked)
