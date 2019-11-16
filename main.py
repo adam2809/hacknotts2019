@@ -1,10 +1,54 @@
 import cv2 as cv
 import numpy as np
 
-img = cv.imread('testImg.jpg')
+cap = cv.VideoCapture(0)
 
-imggray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
-ret, thresh = cv.threshold(imggray, 127, 255, 0)
-contours, hierarchy = cv.findContours(thresh, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
+snap = np.zeros((480,640))
+snapped = False
 
-cv.drawContours(img,contours,-1,(0,255,0),3)
+def getBlackPixel():
+    return np.array([0,0,0])
+
+def getWhitePixel():
+    return np.array([255,255,255])
+
+
+def pixelsDifferent(p1,p2):
+    return not np.array_equal(p1,p2)
+
+
+def maskChangedPixels(original,new):
+    mask = np.zeros_like(original)
+    for i,line in enumerate(original):
+        for j,pixel in enumerate(line):
+            mask[i][j] = getWhitePixel() if pixelsDifferent(pixel,new[i][j]) else getBlackPixel()
+    return mask
+
+
+while True:
+    _, frame = cap.read()
+    blurred_frame = cv.GaussianBlur(frame, (5, 5), 0)
+    hsv = cv.cvtColor(blurred_frame, cv.COLOR_BGR2HSV)
+
+    # if(snapped):
+    #     mask = maskChangedPixels(frame,snap)
+    #     cv.imshow("Mask", mask)
+
+    cv.imshow("Frame", frame)
+
+
+
+    key = cv.waitKey(100)
+    if(key == 101):
+        break
+
+    if(key == 115):
+        snap = frame.copy()
+        snapped = True
+
+    cv.imshow("Snap", snap)
+
+
+
+cap.release()
+cv.destroyAllWindows()
