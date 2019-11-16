@@ -44,22 +44,21 @@ def changeAllWhitePixelsToColor(frame,color):
     return res
 
 
+r.playbackVideoUntilExited(np.load('fewFramesWithColoredStrobe.npy'))
 
-# snap = r.takeSnap()
-# np.save('testVids/vfxClassTestSnap.npy',snap)
-
-vid,snap=np.load('testVids/vfxClassTestVid.npy'),np.load('testVids/vfxClassTestSnap.npy')
-vfx=VFX(vid,snap)
-vfx.maskVideo()
-colors = [
-    np.array([255,0,0]),
-    np.array([0,255,0]),
-    np.array([0,0,255]),
-    np.array([255,255,0])
-]
-vfx.applyColoredStrobeFX(colors)
-np.save('fewFramesWithColoredStrobe.npy',vfx.videoWithFX)
-r.playbackVideoUntilExited(vfx.videoWithFX)
+## Colored strobe with VFX class test
+# vid,snap=np.load('testVids/vfxClassTestVid.npy'),np.load('testVids/vfxClassTestSnap.npy')
+# vfx=VFX(vid,snap)
+# vfx.maskVideo()
+# colors = [
+#     np.array([255,0,0]),
+#     np.array([0,255,0]),
+#     np.array([0,0,255]),
+#     np.array([255,255,0])
+# ]
+# vfx.applyColoredStrobeFX(colors)
+# np.save('fewFramesWithColoredStrobe.npy',vfx.videoWithFX)
+# r.playbackVideoUntilExited(vfx.videoWithFX)
 
 
 
