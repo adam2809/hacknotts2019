@@ -1,7 +1,7 @@
 import cv2 as cv
 import numpy as np
 
-WAIT_FOR_KEY = 17
+WAIT_FOR_KEY = 34
 
 # Starts on calling the function ends when e pressed
 def recordVideo():
@@ -35,7 +35,3 @@ def playbackVideo(frames):
         key = cv.waitKey(WAIT_FOR_KEY)
         if(key == 101):
             break
-
-
-f = recordVideo()
-playbackVideo(f)
