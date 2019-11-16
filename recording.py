@@ -30,8 +30,32 @@ def takeSnap():
 
 def playbackVideo(frames):
     for f in frames:
-        print(f)
         cv.imshow("Frame",f)
         key = cv.waitKey(WAIT_FOR_KEY)
         if(key == 101):
             break
+    cv.destroyAllWindows()
+
+
+def saveVideo(file):
+    video = recordVideo()
+    np.save(file,video)
+
+
+def loadVideo(file):
+    return np.load(file)
+
+
+def recordNewTestStuff():
+    np.save('testSnap.npy',takeSnap())
+    saveVideo("testVideo.npy")
+
+
+def loadTestStuff():
+    return loadVideo('testVideo.npy'),np.load('testSnap.npy')
+
+
+def playbackTestStuff():
+    cv.imshow("Snap",np.load('testSnap.npy'))
+    playbackVideo(loadVideo('testVideo.npy'))
+    cv.destroyAllWindows()
