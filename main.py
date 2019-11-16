@@ -22,9 +22,9 @@ def maskChangedPixels(original,new):
     return mask
 
 
-# r.recordNewTestStuff()
-video,snap = r.loadTestStuff()
-graysnap = cv.cvtColor(snap, cv.COLOR_BGR2GRAY)
+np.save('testBackground.npy',r.takeSnap())
+np.save('testToMask.npy',r.takeSnap())
+
 
 
 
