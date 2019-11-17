@@ -12,15 +12,14 @@ def recordNewSnapAndVideo(videoName,snapName):
     np.save(f'testVids/{videoName}.npy',frames)
 
 
-def takeNFramesThenSnap(videoName,snapName,n):
+def takeNFramesThenSnap(n):
     frames = np.zeros((n,480,640,3))
     for i in range(n):
         frames[i] = r.takeSnap()
+        print(frames[i])
     snap = r.takeSnap()
-    np.save(f'testVids/{snapName}.npy',snap)
-    frames = r.recordNFrames(150)
-    np.save(f'testVids/{videoName}.npy',frames)
     return frames,snap
+
 
 
 def loadAndDisplayUntilExit(filename):
@@ -74,6 +73,9 @@ def extractNormalizedAmplitudeFromWavFile(file,desiFrames):
 #
 # np.save(f'testVids/{NAME}.npy',vfx.videoWithFX)
 # r.playbackVideoUntilExited(vfx.videoWithFX)
-# vid = np.load(f'testVids/{NAME}.npy')
-# r.playbackVideoUntilExited(vid)
-# export(vid,'lomaylomay5secs.wav')
+s = r.takeSnap()
+v = r.recordVideo()
+vfx = VFX(v,s)
+vfx.maskVideo()
+vfx.applyColoredStrobeFX([np.array([255,0,0]),np.array([0,0,255])])
+r.playbackVideoUntilExited(vfx.videoWithFX)

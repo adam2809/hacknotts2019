@@ -36,6 +36,7 @@ class VFX:
 
 
     def prepImg(self,img):
+        print(img.shape)
         img = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
         img = cv.GaussianBlur(img, (9, 9), 0)
         return img
