@@ -6,6 +6,7 @@ class VFX:
         self.video = video
         self.videoWithFX = video
         self.snap = snap
+        self.brightnessArr = [1] * video.shape[0]
 
 
     def maskVideo(self):
@@ -43,11 +44,10 @@ class VFX:
     def applyColoredStrobeFX(self,colors):
         newShape = (*self.videoWithFX.shape,3)
         res = self.repeatVideoNTimes(np.zeros(newShape),len(colors))
-        print('dupers')
         shape0 = res.shape[0]
         for i in range(shape0):
             print(f"Colored strobing frame {i} of {shape0}")
-            res[i] = self.changeAllWhitePixelsToColor(self.videoWithFX[int(i/len(colors))],colors[i%len(colors)],i)
+            res[i] = self.changeAllWhitePixelsToColor(self.videoWithFX[int(i/len(colors))],colors[i%len(colors)],int(i/len(colors)))
         self.videoWithFX = res
 
 
@@ -61,17 +61,11 @@ class VFX:
 
     def changeAllWhitePixelsToColor(self,frame,color,frameNum):
         res = np.zeros((*frame.shape,3))
+        color = color * self.brightnessArr[frameNum]/255
         for i in range(frame.shape[0]):
             for j in range(frame.shape[1]):
                 if not frame[i][j] == 0:
-                    multiplier = 1
-                    print(self.brightnessArr)
-                    print(frameNum)
-                    try:
-                        multiplier = self.brightnessArr[frameNum]
-                    except NameError:
-                        pass
-                    res[i][j] = color * multiplier
+                    res[i][j] = color
         return res
 
 

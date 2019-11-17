@@ -3,6 +3,7 @@ import numpy as np
 import cv2 as cv
 from vfx import VFX
 import wave
+import subprocess
 
 def recordNewSnapAndVideo(videoName,snapName):
     snap = r.takeSnap()
@@ -46,7 +47,7 @@ def extractNormalizedAmplitudeFromWavFile(file,desiFrames):
     return list(map(lambda x:x/maxOfBlocks,blockMaximums))
 
 
-NAME = 'shortTest'
+NAME = 'finalTest'
 
 # recordNewSnapAndVideo(f'{NAME}Vid',f'{NAME}Snap')
 # loadAndDisplayUntilExit(f'{NAME}Vid')
@@ -54,23 +55,21 @@ NAME = 'shortTest'
 video = np.load(f'testVids/{NAME}Vid.npy')
 snap = np.load(f'testVids/{NAME}Snap.npy')
 
-print(video.shape)
-
-# amp = extractNormalizedAmplitudeFromWavFile('lomaylomay5secs.wav',150)
-amp = [0.2,0.5,0.7]
-colors = [
-    np.array([255,0,0]),
-    np.array([0,255,0]),
-    np.array([0,0,255])
-]
-
-vfx = VFX(video,snap)
-vfx.maskVideo()
-r.playbackVideoUntilExited(vfx.videoWithFX)
-vfx.scaleBrightnessWithArray(amp)
-r.playbackVideoUntilExited(vfx.videoWithFX)
-vfx.applyColoredStrobeFX(colors)
-
-np.save(f'testVids/{NAME}.npy',vfx.videoWithFX)
+amp = extractNormalizedAmplitudeFromWavFile('lomaylomay5secs.wav',150)
+# amp = [0.2,0.5,0.7]
+# colors = [
+#     np.array([255,0,0]),
+#     np.array([0,255,0]),
+#     np.array([0,0,255])
+# ]
+#
+# vfx = VFX(video,snap)
+# vfx.maskVideo()
+# vfx.scaleBrightnessWithArray(amp)
+# vfx.applyColoredStrobeFX(colors)
+#
+# np.save(f'testVids/{NAME}.npy',vfx.videoWithFX)
+# r.playbackVideoUntilExited(vfx.videoWithFX)
 vid = np.load(f'testVids/{NAME}.npy')
+subprocess.Popen(['vlc', '--loop', 'lomaylomay5secs.wav'])
 r.playbackVideoUntilExited(vid)
