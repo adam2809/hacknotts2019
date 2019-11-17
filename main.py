@@ -49,10 +49,12 @@ def extractNormalizedAmplitudeFromWavFile(file,desiFrames):
 NAME = 'shortTest'
 
 # recordNewSnapAndVideo(f'{NAME}Vid',f'{NAME}Snap')
-loadAndDisplayUntilExit(f'{NAME}Vid')
+# loadAndDisplayUntilExit(f'{NAME}Vid')
 
 video = np.load(f'testVids/{NAME}Vid.npy')
 snap = np.load(f'testVids/{NAME}Snap.npy')
+
+print(video.shape)
 
 # amp = extractNormalizedAmplitudeFromWavFile('lomaylomay5secs.wav',150)
 amp = [0.2,0.5,0.7]
