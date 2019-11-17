@@ -66,7 +66,9 @@ colors = [
 
 vfx = VFX(video,snap)
 vfx.maskVideo()
-vfx.scaleBrightnessWithArray(abs)
+r.playbackVideoUntilExited(vfx.videoWithFX)
+vfx.scaleBrightnessWithArray(amp)
+r.playbackVideoUntilExited(vfx.videoWithFX)
 vfx.applyColoredStrobeFX(colors)
 
 np.save(f'testVids/{NAME}.npy',vfx.videoWithFX)

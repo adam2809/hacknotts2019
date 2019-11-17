@@ -1,7 +1,7 @@
 import cv2 as cv
 import numpy as np
 
-WAIT_FOR_KEY = 34
+WAIT_FOR_KEY = 200
 
 # Starts on calling the function ends when e pressed
 def recordVideo():

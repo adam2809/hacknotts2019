@@ -6,7 +6,6 @@ class VFX:
         self.video = video
         self.videoWithFX = video
         self.snap = snap
-        self.colored = True
 
 
     def maskVideo(self):
@@ -48,8 +47,7 @@ class VFX:
         shape0 = res.shape[0]
         for i in range(shape0):
             print(f"Colored strobing frame {i} of {shape0}")
-            res[i] = self.changeAllWhitePixelsToColor(self.videoWithFX[int(i/len(colors))],colors[i%len(colors)])
-        self.colored = True
+            res[i] = self.changeAllWhitePixelsToColor(self.videoWithFX[int(i/len(colors))],colors[i%len(colors)],i)
         self.videoWithFX = res
 
 
@@ -61,20 +59,28 @@ class VFX:
         return np.concatenate(reapeating)
 
 
-    def changeAllWhitePixelsToColor(self,frame,color):
+    def changeAllWhitePixelsToColor(self,frame,color,frameNum):
         res = np.zeros((*frame.shape,3))
         for i in range(frame.shape[0]):
             for j in range(frame.shape[1]):
-                if frame[i][j] == 255:
-                    res[i][j] = color
+                if not frame[i][j] == 0:
+                    multiplier = 1
+                    print(self.brightnessArr)
+                    print(frameNum)
+                    try:
+                        multiplier = self.brightnessArr[frameNum]
+                    except NameError:
+                        pass
+                    res[i][j] = color * multiplier
         return res
 
 
-    def scaleBrightnessWithArray(self,array):
-        # if not len(array) == self.videoWithFX.shape[0]:
-        #     print('Could not modify brightness because array length doesnt equal the number of frames' )
+    def scaleBrightnessWithArray(self,arr):
+        # if not len(arr) == self.videoWithFX.shape[0]:
+        #     print('Could not modify brightness because arr length doesnt equal the number of frames' )
         for i,frame in enumerate(self.videoWithFX):
-            print(f'Scaling frame {i} of {self.videoWithFX.shape[0]} with {array[i]}')
+            print(f'Scaling frame {i} of {self.videoWithFX.shape[0]} with {arr[i]}')
             for j,line in enumerate(frame):
                 for k,pixel in enumerate(line):
-                    self.videoWithFX[i][j][k] = pixel * array[i]
+                    self.videoWithFX[i][j][k] = pixel * arr[i]
+        self.brightnessArr = arr.copy()
