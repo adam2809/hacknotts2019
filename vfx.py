@@ -7,35 +7,6 @@ class VFX:
         self.snap = snap
 
 
-    def applyColoredStrobeFX(self,colors):
-        newShape = (*self.videoWithFX.shape,3)
-        res = self.repeatVideoNTimes(np.zeros(newShape),len(colors))
-        print('dupers')
-        shape0 = res.shape[0]
-        for i in range(shape0):
-            print(f"Colored strobing frame {i} of {shape0}")
-            res[i] = self.changeAllWhitePixelsToColor(self.videoWithFX[int(i/len(colors))],colors[i%len(colors)])
-
-        self.videoWithFX = res
-
-
-
-    def repeatVideoNTimes(self,video,n):
-        reapeating = []
-        for i in range(n):
-            reapeating.append(video)
-        return np.concatenate(reapeating)
-
-
-    def changeAllWhitePixelsToColor(self,frame,color):
-        res = np.zeros((*frame.shape,3))
-        for i in range(frame.shape[0]):
-            for j in range(frame.shape[1]):
-                if frame[i][j] == 255:
-                    res[i][j] = color
-        return res
-
-
     def maskVideo(self):
         maskedVideo = []
         preppedSnap = self.prepImg(self.snap)
@@ -66,3 +37,32 @@ class VFX:
         img = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
         img = cv.GaussianBlur(img, (9, 9), 0)
         return img
+
+
+    def applyColoredStrobeFX(self,colors):
+        newShape = (*self.videoWithFX.shape,3)
+        res = self.repeatVideoNTimes(np.zeros(newShape),len(colors))
+        print('dupers')
+        shape0 = res.shape[0]
+        for i in range(shape0):
+            print(f"Colored strobing frame {i} of {shape0}")
+            res[i] = self.changeAllWhitePixelsToColor(self.videoWithFX[int(i/len(colors))],colors[i%len(colors)])
+
+        self.videoWithFX = res
+
+
+
+    def repeatVideoNTimes(self,video,n):
+        reapeating = []
+        for i in range(n):
+            reapeating.append(video)
+        return np.concatenate(reapeating)
+
+
+    def changeAllWhitePixelsToColor(self,frame,color):
+        res = np.zeros((*frame.shape,3))
+        for i in range(frame.shape[0]):
+            for j in range(frame.shape[1]):
+                if frame[i][j] == 255:
+                    res[i][j] = color
+        return res
