@@ -4,6 +4,7 @@ import numpy as np
 class VFX:
     def __init__(self,video,snap):
         self.video = video
+        self.videoWithFX = video
         self.snap = snap
 
 
@@ -66,3 +67,13 @@ class VFX:
                 if frame[i][j] == 255:
                     res[i][j] = color
         return res
+
+
+    def scaleBrightnessWithArray(self,array):
+        # if not len(array) == self.videoWithFX.shape[0]:
+        #     print('Could not modify brightness because array length doesnt equal the number of frames' )
+        for i,frame in enumerate(self.videoWithFX):
+            print(f'Scaling frame {i} of {self.videoWithFX.shape[0]} with {array[i]}')
+            for j,line in enumerate(frame):
+                for k,pixel in enumerate(line):
+                    self.videoWithFX[i][j][k] = np.array([v*array[i] for v in pixel])

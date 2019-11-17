@@ -1,7 +1,7 @@
 import cv2 as cv
 import numpy as np
 
-WAIT_FOR_KEY = 30
+WAIT_FOR_KEY = 10
 
 # Starts on calling the function ends when e pressed
 def recordVideo():
@@ -80,3 +80,22 @@ def displayImg(img):
     key = cv.waitKey(100000)
     if(key>0):
         cv.destroyAllWindows()
+
+
+def recordNFrames(n):
+    cap = cv.VideoCapture(0)
+    recording = []
+    for i in range(n):
+        _, frame = cap.read()
+
+        cv.imshow("Frame", frame)
+        recording.append(frame.copy())
+
+        key = cv.waitKey(WAIT_FOR_KEY)
+        if(key == 101):
+            break
+
+    cap.release()
+    cv.destroyAllWindows()
+
+    return recording
