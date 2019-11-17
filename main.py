@@ -3,7 +3,6 @@ import numpy as np
 import cv2 as cv
 from vfx import VFX
 import wave
-import subprocess
 
 def recordNewSnapAndVideo(videoName,snapName):
     snap = r.takeSnap()
@@ -13,16 +12,15 @@ def recordNewSnapAndVideo(videoName,snapName):
     np.save(f'testVids/{videoName}.npy',frames)
 
 
-# def takeNFramesThenSnap(videoName,snapName,n):
-#     frames = np.zeros((n,480,640,3))
-#     for i in range(n):
-#         frames[i] = r.takeSnap()
-#     snap = r.takeSnap()
-#     np.save(f'testVids/{snapName}.npy',snap)
-#     input("Click to record video")
-#     frames = r.recordNFrames(150)
-#     np.save(f'testVids/{videoName}.npy',frames)
-#     return np.c
+def takeNFramesThenSnap(videoName,snapName,n):
+    frames = np.zeros((n,480,640,3))
+    for i in range(n):
+        frames[i] = r.takeSnap()
+    snap = r.takeSnap()
+    np.save(f'testVids/{snapName}.npy',snap)
+    frames = r.recordNFrames(150)
+    np.save(f'testVids/{videoName}.npy',frames)
+    return frames,snap
 
 
 def loadAndDisplayUntilExit(filename):
@@ -47,15 +45,21 @@ def extractNormalizedAmplitudeFromWavFile(file,desiFrames):
     return list(map(lambda x:x/maxOfBlocks,blockMaximums))
 
 
-NAME = 'finalTest'
+
+
+
+
+
+
+# NAME = 'finalTest'
 
 # recordNewSnapAndVideo(f'{NAME}Vid',f'{NAME}Snap')
 # loadAndDisplayUntilExit(f'{NAME}Vid')
 
-video = np.load(f'testVids/{NAME}Vid.npy')
-snap = np.load(f'testVids/{NAME}Snap.npy')
-
-amp = extractNormalizedAmplitudeFromWavFile('lomaylomay5secs.wav',150)
+# video = np.load(f'testVids/{NAME}Vid.npy')
+# snap = np.load(f'testVids/{NAME}Snap.npy')
+#
+# amp = extractNormalizedAmplitudeFromWavFile('lomaylomay5secs.wav',150)
 # amp = [0.2,0.5,0.7]
 # colors = [
 #     np.array([255,0,0]),
@@ -70,6 +74,6 @@ amp = extractNormalizedAmplitudeFromWavFile('lomaylomay5secs.wav',150)
 #
 # np.save(f'testVids/{NAME}.npy',vfx.videoWithFX)
 # r.playbackVideoUntilExited(vfx.videoWithFX)
-vid = np.load(f'testVids/{NAME}.npy')
-subprocess.Popen(['vlc', '--loop', 'lomaylomay5secs.wav'])
-r.playbackVideoUntilExited(vid)
+# vid = np.load(f'testVids/{NAME}.npy')
+# r.playbackVideoUntilExited(vid)
+# export(vid,'lomaylomay5secs.wav')
