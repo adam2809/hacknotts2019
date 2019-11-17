@@ -6,6 +6,7 @@ class VFX:
         self.video = video
         self.videoWithFX = video
         self.snap = snap
+        self.colored = True
 
 
     def maskVideo(self):
@@ -48,7 +49,7 @@ class VFX:
         for i in range(shape0):
             print(f"Colored strobing frame {i} of {shape0}")
             res[i] = self.changeAllWhitePixelsToColor(self.videoWithFX[int(i/len(colors))],colors[i%len(colors)])
-
+        self.colored = True
         self.videoWithFX = res
 
 
@@ -76,4 +77,4 @@ class VFX:
             print(f'Scaling frame {i} of {self.videoWithFX.shape[0]} with {array[i]}')
             for j,line in enumerate(frame):
                 for k,pixel in enumerate(line):
-                    self.videoWithFX[i][j][k] = np.array([v*array[i] for v in pixel])
+                    self.videoWithFX[i][j][k] = pixel * array[i]

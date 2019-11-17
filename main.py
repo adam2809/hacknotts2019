@@ -8,8 +8,20 @@ def recordNewSnapAndVideo(videoName,snapName):
     snap = r.takeSnap()
     np.save(f'testVids/{snapName}.npy',snap)
     input("Click to record video")
-    frames = r.recordNFrames(150)
+    frames = r.recordNFrames(3)
     np.save(f'testVids/{videoName}.npy',frames)
+
+
+# def takeNFramesThenSnap(videoName,snapName,n):
+#     frames = np.zeros((n,480,640,3))
+#     for i in range(n):
+#         frames[i] = r.takeSnap()
+#     snap = r.takeSnap()
+#     np.save(f'testVids/{snapName}.npy',snap)
+#     input("Click to record video")
+#     frames = r.recordNFrames(150)
+#     np.save(f'testVids/{videoName}.npy',frames)
+#     return np.c
 
 
 def loadAndDisplayUntilExit(filename):
@@ -34,33 +46,27 @@ def extractNormalizedAmplitudeFromWavFile(file,desiFrames):
     return list(map(lambda x:x/maxOfBlocks,blockMaximums))
 
 
-# snap = np.load('testVids/vidWith150Frames.npy')
-# video = np.load('testVids/snapWith150Frames.npy')
+NAME = 'shortTest'
 
-loadAndDisplayUntilExit('lomayTest')
+# recordNewSnapAndVideo(f'{NAME}Vid',f'{NAME}Snap')
+loadAndDisplayUntilExit(f'{NAME}Vid')
 
+video = np.load(f'testVids/{NAME}Vid.npy')
+snap = np.load(f'testVids/{NAME}Snap.npy')
 
 # amp = extractNormalizedAmplitudeFromWavFile('lomaylomay5secs.wav',150)
-# vfx = VFX(np.ones((150,480,640,3)),np.ones((480,640,3)))
-# vfx.scaleBrightnessWithArray(amp)
-# np.save('testVids/lomayTest.npy',vfx.videoWithFX)
+amp = [0.2,0.5,0.7]
+colors = [
+    np.array([255,0,0]),
+    np.array([0,255,0]),
+    np.array([0,0,255])
+]
 
-## The making of proper colored strobe
-# np.save('testVids/properColoredStrobeSnap.npy',r.takeSnap())
-# input("Click to film")
-# r.saveVideo('testVids/properColoredStrobeVid.npy')
-#
-# vid = r.loadVideo('testVids/properColoredStrobeVid.npy')
-# snap = np.load('testVids/properColoredStrobeSnap.npy')
-#
-# vfx = VFX(vid,snap)
-# vfx.maskVideo()
-# colors = [
-#     np.array([255,0,255]),
-#     np.array([255,0,0]),
-#     np.array([0,0,0]),
-#     np.array([0,0,255]),
-#     np.array([255,255,0])
-# ]
-# vfx.applyColoredStrobeFX(colors)
-# np.save('testVids/properColoredStrobe.npy',vfx.videoWithFX)
+vfx = VFX(video,snap)
+vfx.maskVideo()
+vfx.scaleBrightnessWithArray(abs)
+vfx.applyColoredStrobeFX(colors)
+
+np.save(f'testVids/{NAME}.npy',vfx.videoWithFX)
+vid = np.load(f'testVids/{NAME}.npy')
+r.playbackVideoUntilExited(vid)
